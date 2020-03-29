@@ -1,0 +1,30 @@
+DROP DATABASE IF EXISTS carrental;
+DROP TABLE IF EXISTS Users;
+DROP TABLE IF EXISTS Cars;
+
+CREATE DATABASE IF NOT EXISTS carrental;
+USE carrental;
+
+CREATE TABLE IF NOT EXISTS Users (
+    email VARCHAR(255) NOT NULL,
+    password_hash VARCHAR(255) NOT NULL
+);
+ALTER TABLE Users ADD PRIMARY KEY(email);
+
+CREATE TABLE IF NOT EXISTS Cars (
+    id INT AUTO_INCREMENT NOT NULL,
+    make VARCHAR(255) NOT NULL,
+    model VARCHAR(255) NOT NULL,
+    prod_year INT NOT NULL,
+    displacement INT NOT NULL,
+    horsepower INT NOT NULL,
+    fuel_economy DECIMAL(10,1) NOT NULL,
+    price_per_day DECIMAL(13, 4) NOT NULL
+);
+ALTER TABLE Cars ADD PRIMARY KEY(id);
+
+CREATE TABLE User_Cars (
+    user_email VARCHAR(255) NOT NULL,
+    car_id VARCHAR(255) NOT NULL
+);
+ALTER TABLE User_Cars ADD PRIMARY KEY(user_email);

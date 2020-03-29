@@ -1,0 +1,50 @@
+version: '3.3'
+
+services:
+  mysql-development:
+    image: mysql
+    restart: always
+    container_name: carrental_mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=carrental
+      - MYSQL_DATABASE=carrental
+    ports:
+      - "3308:3306"
+    expose:
+      - "3306"
+    volumes:
+      - ./db_data:/var/lib/mysql:rw
+      - ./db_init:/docker-entrypoint-initdb.d:ro
+    networks:
+      - carrental
+
+  carrental-server:
+    build: server
+    container_name: carrental_server
+    depends_on:
+      - "mysql-development"
+    ports:
+      - "5000:5000"
+    networks:
+      - carrental
+
+  carrental-client:
+    build:
+      context: client
+    container_name: carrental_client
+    # logging:
+    #   driver: "none"
+    depends_on:
+      - "carrental-server"
+    ports:
+      - "8000:3000"
+    networks:
+      - carrental
+    command: npm start
+
+networks:
+  carrental:
+
+volumes:
+  db_data:
+  db_init:
