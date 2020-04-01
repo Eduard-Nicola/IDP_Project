@@ -1,8 +1,8 @@
 
 package com.carrental.server;
 
-import com.carrental.database.User;
-import com.carrental.database.UserRepository;
+import com.carrental.server.database.User;
+import com.carrental.server.database.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -32,7 +32,7 @@ public class Server {
 
     @PostMapping(path="/login")
     public @ResponseBody
-    String addNewUser (@RequestParam String email, @RequestParam String passwordHash) {
+    String addNewUser(@RequestParam String email, @RequestParam String passwordHash) {
         // @ResponseBody means the returned String is the response, not a view name
         // @RequestParam means it is a parameter from the GET or POST request
 

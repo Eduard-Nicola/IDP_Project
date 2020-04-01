@@ -1,4 +1,4 @@
-version: '3.3'
+version: '3.7'
 
 services:
   mysql-development:
@@ -9,7 +9,7 @@ services:
       - MYSQL_ROOT_PASSWORD=carrental
       - MYSQL_DATABASE=carrental
     ports:
-      - "3308:3306"
+      - "3306:3306"
     expose:
       - "3306"
     volumes:
@@ -21,10 +21,15 @@ services:
   carrental-server:
     build: server
     container_name: carrental_server
+    # restart: always
     depends_on:
       - "mysql-development"
     ports:
-      - "5000:8080"
+      - "8080:8080"
+    environment: # Pass environment variables to the service
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-development:3306/carrental?useSSL=false&allowPublicKeyRetrieval=true
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: carrental
     networks:
       - carrental
 
