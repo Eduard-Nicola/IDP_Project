@@ -6,6 +6,8 @@ import com.carrental.server.database.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @SpringBootApplication
@@ -30,16 +32,31 @@ public class Server {
                 "and provide tools for filtering.");
     }
 
-    @PostMapping(path="/login")
+    @PostMapping(path="/signup")
     public @ResponseBody
     String addNewUser(@RequestParam String email, @RequestParam String passwordHash) {
-        // @ResponseBody means the returned String is the response, not a view name
-        // @RequestParam means it is a parameter from the GET or POST request
+        // Check if email exists
+        User user = userRepository.findByEmail(email);
+        if (user != null) {
+            return "User already exists.";
+        }
 
         User n = new User();
         n.setEmail(email);
         n.setPasswordHash(passwordHash);
         userRepository.save(n);
         return "Saved";
+    }
+
+    @PostMapping(path="/login")
+    public @ResponseBody
+    ResponseEntity<String> checkUser(@RequestParam String email, @RequestParam String passwordHash) {
+        // Check if email exists
+        User user = userRepository.findByEmail(email);
+        if (user != null) {
+            return new ResponseEntity<String>("Found", HttpStatus.OK);
+        }
+
+        return new ResponseEntity<String>("Not Found", HttpStatus.NOT_FOUND);
     }
 }
