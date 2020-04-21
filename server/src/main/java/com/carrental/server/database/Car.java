@@ -13,9 +13,28 @@ public class Car {
     private Integer prodYear;
     private Integer displacement;
     private Integer horsepower;
+    private String fuelType;
+
+    public String getFuelType() {
+        return fuelType;
+    }
+
+    public void setFuelType(String fuelType) {
+        this.fuelType = fuelType;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
     private Float fuelEconomy;
     private Float pricePerDay;
     private Integer reserved;
+    private String imageUrl;
 
     public Integer getId() {
         return id;

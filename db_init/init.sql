@@ -16,9 +16,11 @@ CREATE TABLE IF NOT EXISTS car (
     prod_year INT NOT NULL,
     displacement INT NOT NULL,
     horsepower INT NOT NULL,
+    fuel_type VARCHAR(255) NOT NULL,
     fuel_economy DECIMAL(10,1) NOT NULL,
     price_per_day DECIMAL(13, 4) NOT NULL,
-    reserved INT NOT NULL
+    reserved INT NOT NULL,
+    image_url VARCHAR(255)
 );
 
 CREATE TABLE user_cars (

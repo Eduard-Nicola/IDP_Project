@@ -26,7 +26,7 @@ services:
       - "mysql-development"
     ports:
       - "8080:8080"
-    environment: # Pass environment variables to the service
+    environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql-development:3306/carrental?useSSL=false&allowPublicKeyRetrieval=true
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: carrental
@@ -46,6 +46,8 @@ services:
     networks:
       - carrental
     command: npm start
+    links:
+      - carrental-server
 
 networks:
   carrental:
