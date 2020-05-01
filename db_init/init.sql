@@ -20,11 +20,12 @@ CREATE TABLE IF NOT EXISTS car (
     fuel_economy DECIMAL(10,1) NOT NULL,
     price_per_day DECIMAL(13, 4) NOT NULL,
     reserved INT NOT NULL,
+    reserved_from VARCHAR(255) NOT NULL,
+    reserved_to VARCHAR(255) NOT NULL,
     image_url VARCHAR(255)
 );
 
-CREATE TABLE user_cars (
-    user_id VARCHAR(255) NOT NULL,
-    car_id VARCHAR(255) NOT NULL
-);
-ALTER TABLE user_cars ADD PRIMARY KEY(user_id);
+INSERT INTO car (make, model, prod_year, displacement, horsepower, fuel_type, fuel_economy, price_per_day, reserved, reserved_from, reserved_to, image_url) VALUES ("Skoda", "Octavia", "2013", 1998, 150, "Gasoline", 8, 150, 0, "none", "none", "skoda_octavia.jpg");
+INSERT INTO car (make, model, prod_year, displacement, horsepower, fuel_type, fuel_economy, price_per_day, reserved, reserved_from, reserved_to, image_url) VALUES ("Mercedes-Benz", "C-Klasse", "2009", 2200, 180, "Gasoline", 10, 250, 0, "none", "none", "merc_c_klasse.jpg");
+INSERT INTO car (make, model, prod_year, displacement, horsepower, fuel_type, fuel_economy, price_per_day, reserved, reserved_from, reserved_to, image_url) VALUES ("Audi", "A8", "2015", 2998, 300, "Gasoline", 13, 400, 0, "none", "none", "audi_a8.jpg");
+INSERT INTO car (make, model, prod_year, displacement, horsepower, fuel_type, fuel_economy, price_per_day, reserved, reserved_from, reserved_to, image_url) VALUES ("Volkswagen", "Golf", "2016", 1597, 120, "Diesel", 6, 100, 0, "none", "none", "vw_golf.jpg");

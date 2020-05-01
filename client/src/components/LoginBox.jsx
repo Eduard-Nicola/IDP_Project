@@ -74,11 +74,11 @@ class LoginBox extends Component {
                     this.setState({ loginStatus: data.status })
                     // console.log("status is ", data.status)
                     if (route === 'login' && data.status === 'found') {
-                        this.props.callback(true);
+                        this.props.callback(true, data.id);
                         this.setState({ redirect: true })
                     }
                     if (route === 'signup' && data.status === 'added') {
-                        this.props.callback(true);
+                        this.props.callback(true, data.id);
                         this.setState({ redirect: true })
                     }
                 }

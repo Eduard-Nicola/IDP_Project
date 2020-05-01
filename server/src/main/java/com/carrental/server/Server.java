@@ -1,12 +1,7 @@
 
 package com.carrental.server;
 
-import com.carrental.server.database.Car;
-import com.carrental.server.database.CarRepository;
-import com.carrental.server.database.User;
-import com.carrental.server.database.UserRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.carrental.server.database.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -16,9 +11,7 @@ import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
-import java.io.InputStream;
-
-import org.apache.commons.io.IOUtils;
+import java.util.Optional;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -29,7 +22,6 @@ public class Server {
     private UserRepository userRepository;
     @Autowired
     private CarRepository carRepository;
-    private static Logger logger = LoggerFactory.getLogger(Server.class);
 
     public static void main(String[] args) {
         SpringApplication.run(Server.class, args);
@@ -56,7 +48,58 @@ public class Server {
         }
     }
 
-    private static class ResponseLoginSignup {
+    private static class ReserveForm {
+        private Integer userId;
+        private Integer carId;
+        private String fromDate;
+        private String toDate;
+
+        public Integer getUserId() {
+            return userId;
+        }
+
+        public void setUserId(Integer userId) {
+            this.userId = userId;
+        }
+
+        public Integer getCarId() {
+            return carId;
+        }
+
+        public void setCarId(Integer carId) {
+            this.carId = carId;
+        }
+
+        public String getFromDate() {
+            return fromDate;
+        }
+
+        public void setFromDate(String fromDate) {
+            this.fromDate = fromDate;
+        }
+
+        public String getToDate() {
+            return toDate;
+        }
+
+        public void setToDate(String toDate) {
+            this.toDate = toDate;
+        }
+    }
+
+    private static class UnReserveForm {
+        private Integer carId;
+
+        public Integer getCarId() {
+            return carId;
+        }
+
+        public void setCarId(Integer carId) {
+            this.carId = carId;
+        }
+    }
+
+    private static class Response {
         private String status;
 
         public void setStatus(String status) {
@@ -68,6 +111,27 @@ public class Server {
         }
     }
 
+    private static class ResponseLoginSignup {
+        private String status;
+        private Integer id;
+
+        public String getStatus() {
+            return status;
+        }
+
+        public void setStatus(String status) {
+            this.status = status;
+        }
+
+        public Integer getId() {
+            return id;
+        }
+
+        public void setId(Integer id) {
+            this.id = id;
+        }
+    }
+
     @GetMapping("/hello")
     public String hello(@RequestParam(value = "name", defaultValue = "World") String name) {
         return String.format("Hello %s!", name);
@@ -76,13 +140,14 @@ public class Server {
     @PostMapping(path="/signup")
     @CrossOrigin(origins = "http://localhost:3000")
     public @ResponseBody ResponseLoginSignup addNewUser(@RequestBody LoginForm loginForm) {
-        ResponseLoginSignup responseLogin = new ResponseLoginSignup();
+        ResponseLoginSignup responseSignup = new ResponseLoginSignup();
 
         // Check if email exists
         User user = userRepository.findByEmail(loginForm.email);
         if (user != null) {
-            responseLogin.setStatus("exists");
-            return responseLogin;
+            responseSignup.setStatus("exists");
+            responseSignup.setId(user.getId());
+            return responseSignup;
         }
 
         User n = new User();
@@ -90,8 +155,9 @@ public class Server {
         n.setPasswordHash(loginForm.passwordHash);
         userRepository.save(n);
 
-        responseLogin.setStatus("added");
-        return responseLogin;
+        responseSignup.setStatus("added");
+        responseSignup.setId(n.getId());
+        return responseSignup;
     }
 
     @PostMapping(path="/login")
@@ -99,22 +165,22 @@ public class Server {
     public @ResponseBody ResponseLoginSignup checkUser(@RequestBody LoginForm loginForm) {
         ResponseLoginSignup responseLogin = new ResponseLoginSignup();
 
-//        logger.info("Email is " + loginForm.email);
-//        logger.info("Password is " + loginForm.passwordHash);
-
         // Check if email exists
         User user = userRepository.findByEmail(loginForm.email);
         if (user != null) {
             if (user.getPasswordHash().equals(loginForm.passwordHash)) {
                 responseLogin.setStatus("found");
+                responseLogin.setId(user.getId());
                 return responseLogin;
             } else {
                 responseLogin.setStatus("wrong");
+                responseLogin.setId(-1);
                 return responseLogin;
             }
         }
 
         responseLogin.setStatus("not found");
+        responseLogin.setId(-1);
         return responseLogin;
     }
 
@@ -122,6 +188,52 @@ public class Server {
     @CrossOrigin(origins = "http://localhost:3000")
     public @ResponseBody Iterable<Car> getCars() {
         return carRepository.findAll();
+    }
+
+    @PostMapping(path="/reserve")
+    @CrossOrigin(origins = "http://localhost:3000")
+    public @ResponseBody Response reserveCar(@RequestBody ReserveForm reserveForm) {
+        Response responseReserve = new Response();
+
+        // Check if car exists
+        Optional<Car> optionalCar = carRepository.findById(reserveForm.carId);
+        if (optionalCar.isPresent()) {
+            Car car = optionalCar.get();
+
+            car.setReserved(reserveForm.userId);
+            car.setReservedFrom(reserveForm.fromDate);
+            car.setReservedTo(reserveForm.toDate);
+            carRepository.save(car);
+
+            responseReserve.setStatus("updated");
+            return responseReserve;
+        }
+
+        responseReserve.setStatus("not found");
+        return responseReserve;
+    }
+
+    @PostMapping(path="/unreserve")
+    @CrossOrigin(origins = "http://localhost:3000")
+    public @ResponseBody Response unReserveCar(@RequestBody UnReserveForm unReserveForm) {
+        Response responseReserve = new Response();
+
+        // Check if car exists
+        Optional<Car> optionalCar = carRepository.findById(unReserveForm.carId);
+        if (optionalCar.isPresent()) {
+            Car car = optionalCar.get();
+
+            car.setReserved(0);
+            car.setReservedFrom("none");
+            car.setReservedTo("none");
+            carRepository.save(car);
+
+            responseReserve.setStatus("updated");
+            return responseReserve;
+        }
+
+        responseReserve.setStatus("not found");
+        return responseReserve;
     }
 
     @CrossOrigin(origins = "http://localhost:3000")

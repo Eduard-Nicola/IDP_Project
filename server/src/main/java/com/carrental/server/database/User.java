@@ -2,7 +2,7 @@ package com.carrental.server.database;
 
 import javax.persistence.*;
 
-@Entity // This tells Hibernate to make a table out of this class
+@Entity
 @Table(name="user")
 public class User {
     @Id

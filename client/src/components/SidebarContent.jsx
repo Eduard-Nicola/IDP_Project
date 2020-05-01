@@ -48,9 +48,6 @@ export default class SidebarContent extends Component {
           <Link style={ this.props.isOpen ? {} : { pointerEvents: 'none', display : 'none' }} to="/contact">
             <div className="link sidebar-link">Contact</div>
           </Link>
-          {/* <div className="link sidebar-link">Home</div>
-          <div className="link sidebar-link">Cars</div>
-          <div className="link sidebar-link">Contact</div> */}
         </div>
       )}
     </Transition>

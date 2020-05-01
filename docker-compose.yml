@@ -21,7 +21,6 @@ services:
   carrental-server:
     build: server
     container_name: carrental_server
-    # restart: always
     depends_on:
       - "mysql-development"
     ports:
@@ -37,8 +36,6 @@ services:
     build:
       context: client
     container_name: carrental_client
-    # logging:
-    #   driver: "none"
     depends_on:
       - "carrental-server"
     ports:
@@ -48,6 +45,21 @@ services:
     command: npm start
     links:
       - carrental-server
+
+  carrental-admin:
+    build: 
+      context: admin
+    container_name: carrental_admin
+    logging:
+      driver: "none"
+    depends_on:
+      - "mysql-development"
+    stdin_open: true
+    tty: true
+    ports:
+      - "3005:3004"
+    networks:
+      - carrental
 
 networks:
   carrental:

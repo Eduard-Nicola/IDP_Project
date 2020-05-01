@@ -24,7 +24,7 @@ const useStyles = makeStyles(theme => ({
 
 const handleLogoutClick = (props) => {
   redirect = true;
-  props.callback(false);
+  props.callback(false, -1);
 };
 
 const renderButtons = (props, classes) => {
@@ -34,7 +34,9 @@ const renderButtons = (props, classes) => {
   if (props.isLoggedIn === true) {
     return (
       <React.Fragment>
-        <Button style={{color: "white"}} color="inherit">My Cars</Button>
+        <Link to="/mycars">
+          <Button style={{color: "white"}} color="inherit">My Cars</Button>
+        </Link>
         <Button onClick={() => handleLogoutClick(props)} style={{color: "white"}} color="inherit">Logout</Button>
       </React.Fragment>
     );

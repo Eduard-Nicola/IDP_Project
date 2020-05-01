@@ -41,6 +41,17 @@
   text-shadow: 2px 2px #FFFFFF;
 }
 
+.text {
+  text-align: center;
+  color: #FFFFFF;
+  font-size: 30px;
+  text-shadow: 2px 2px #000000;
+  display: flex;
+  justify-content: center;
+  position: relative;
+  top: 39vh;
+}
+
 .paragraphLogin {
   color: white;
   font-size: 30px;

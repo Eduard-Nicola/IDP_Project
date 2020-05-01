@@ -7,13 +7,42 @@ import MainPhoto from './263730.jpg'
 import LoginBox from './components/LoginBox'
 import GridList from './components/GridList'
 
-class App extends Component{
+class App extends Component {
   state = {
-    isLoggedIn: false
+    isLoggedIn: false,
+    userId: -1,
+    remountAll: false,
+    remountLocal: false
   }
 
-  getLoginStatus = (loginStatus) => {
+  componentDidMount() {
+    var loginStatus = false;
+    var id = -1;
+
+    if (sessionStorage.getItem('loginStatus')) {
+      loginStatus = JSON.parse(localStorage.getItem('loginStatus'));
+    }
+    if (sessionStorage.getItem('loginStatus')) {
+      id = parseInt(localStorage.getItem('userId'));
+    }
+
+    this.setState({ isLoggedIn: loginStatus,
+                    userId: id });
+  }
+
+  getLoginStatus = (loginStatus, id) => {
     this.setState({ isLoggedIn: loginStatus });
+    this.setState({ userId: id });
+    sessionStorage.setItem('loginStatus', JSON.stringify(loginStatus));
+    sessionStorage.setItem('userId', id);
+  }
+
+  onRemountAll = () => {
+    this.setState({ remountAll: !this.state.remountAll });
+  }
+
+  onRemountLocal = () => {
+    this.setState({ remountLocal: !this.state.remountLocal });
   }
   
   render() {
@@ -26,7 +55,7 @@ class App extends Component{
     var carsBodyStyle = {
       width: "100%",
       height: "100vh",
-      backgroundColor: "#484848"
+      backgroundColor: "#000000"
     };
 
     return (
@@ -40,21 +69,46 @@ class App extends Component{
               </body>
           </Route>
           <Route key="cars" path="/cars">
-            <ButtonAppBar title="Our cars" isLoggedIn={this.state.isLoggedIn} callback={this.getLoginStatus}/>
+            <ButtonAppBar title="Available cars" isLoggedIn={this.state.isLoggedIn} callback={this.getLoginStatus}/>
               <body style={carsBodyStyle}>
-                <GridList />
+                <GridList 
+                  key={String(this.state.remountAll)} 
+                  isLoggedIn={this.state.isLoggedIn} 
+                  userId={this.state.userId} 
+                  reservedId={0} 
+                  myCars={false}
+                  callback={this.onRemountAll}
+                />
+              </body>
+          </Route>
+          <Route key="cars" path="/mycars">
+            <ButtonAppBar title="My cars" isLoggedIn={this.state.isLoggedIn} callback={this.getLoginStatus}/>
+              <body style={carsBodyStyle}>
+                <GridList 
+                  key={String(this.state.remountLocal)} 
+                  isLoggedIn={this.state.isLoggedIn} 
+                  userId={this.state.userId} 
+                  reservedId={this.state.userId} 
+                  myCars={true}
+                  callback={this.onRemountLocal}
+                />
               </body>
           </Route>
           <Route key="about" path="/about">
             <ButtonAppBar title="About us" isLoggedIn={this.state.isLoggedIn} callback={this.getLoginStatus}/>
               <body style={bodyStyle}>
-                <h1 className='display-1 text-primary title'>About page!</h1>
+                <span className='text'> We are fairly new on the market </span>
+                <span className='text'> but we make sure all our clients are satisifed. </span>
+                <span className='text'> We started out small in Bucharest but we expanded across all Europe. </span>
               </body>
           </Route>
           <Route key="contact" path="/contact">
             <ButtonAppBar title="Contact" isLoggedIn={this.state.isLoggedIn} callback={this.getLoginStatus}/>
               <body style={bodyStyle}>
-                <h1 className='display-1 text-primary title'>Contact page!</h1>
+                <span className='text'> Car-n-go. All rights reserved. </span>
+                <span className='text'> Email: carngo@cars.com </span>
+                <span className='text'> Phone: +4072457849 </span>
+                <span className='text'> Headquarters: Calea Victoriei 7, Bucharest, Romania </span>
               </body>
           </Route>
           <Route key="login" path="/login">

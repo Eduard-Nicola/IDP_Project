@@ -2,7 +2,7 @@ package com.carrental.server.database;
 
 import javax.persistence.*;
 
-@Entity // This tells Hibernate to make a table out of this class
+@Entity
 @Table(name="car")
 public class Car {
     @Id
@@ -14,6 +14,29 @@ public class Car {
     private Integer displacement;
     private Integer horsepower;
     private String fuelType;
+    private Float fuelEconomy;
+    private Float pricePerDay;
+    private Integer reserved;
+    private String reservedFrom;
+    private String reservedTo;
+
+    public String getReservedFrom() {
+        return reservedFrom;
+    }
+
+    public void setReservedFrom(String reservedFrom) {
+        this.reservedFrom = reservedFrom;
+    }
+
+    public String getReservedTo() {
+        return reservedTo;
+    }
+
+    public void setReservedTo(String reservedTo) {
+        this.reservedTo = reservedTo;
+    }
+
+    private String imageUrl;
 
     public String getFuelType() {
         return fuelType;
@@ -30,11 +53,6 @@ public class Car {
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
-
-    private Float fuelEconomy;
-    private Float pricePerDay;
-    private Integer reserved;
-    private String imageUrl;
 
     public Integer getId() {
         return id;
