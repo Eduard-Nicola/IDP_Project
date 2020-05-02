@@ -57,7 +57,7 @@ class TitlebarGridList extends Component {
             
                 // Set image URLs
                 this.tileData.map(car => {
-                  var imgUrl = "http://localhost:8080/" + car.imageUrl;
+                  var imgUrl = "http://localhost:8080/photos/" + car.imageUrl;
                   
                   car.image = imgUrl;
 

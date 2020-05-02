@@ -15,6 +15,7 @@ import java.util.Optional;
 
 import javax.servlet.http.HttpServletResponse;
 
+@CrossOrigin(origins = "http://localhost:9090")
 @SpringBootApplication
 @RestController
 public class Server {
@@ -238,7 +239,7 @@ public class Server {
 
     @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping (
-        path = "/{image_path}",
+        path = "/photos/{image_path}",
         produces = MediaType.IMAGE_JPEG_VALUE
     )
     public void getImage(HttpServletResponse response, @PathVariable String image_path) throws IOException {
