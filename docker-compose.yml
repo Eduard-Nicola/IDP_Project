@@ -17,11 +17,14 @@ services:
       - ./db_init:/docker-entrypoint-initdb.d:ro
     networks:
       - carrental
+    deploy:
+      placement:
+        constraints: [node.role == manager]
 
   carrental-server:
-    build: 
-      context: server
-    # image: eduardnicola/idp_project:latest-server
+    # build: 
+    #   context: server
+    image: eduardnicola/idp_project:latest-server
     container_name: carrental_server
     depends_on:
       - "mysql-development"
@@ -35,11 +38,14 @@ services:
       carrental:
         aliases:
           - server
+    deploy:
+      placement:
+        constraints: [node.role == manager]
 
   carrental-client:
-    build:
-      context: client
-    # image: eduardnicola/idp_project:latest-client
+    # build:
+    #   context: client
+    image: eduardnicola/idp_project:latest-client
     container_name: carrental_client
     depends_on:
       - "carrental-server"
@@ -52,9 +58,9 @@ services:
       - carrental-server
 
   carrental-admin:
-    build: 
-      context: admin
-    # image: eduardnicola/idp_project:latest-admin
+    # build: 
+    #   context: admin
+    image: eduardnicola/idp_project:latest-admin
     container_name: carrental_admin
     logging:
       driver: "none"
