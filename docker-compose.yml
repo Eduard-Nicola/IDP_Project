@@ -69,7 +69,7 @@ services:
     stdin_open: true
     tty: true
     ports:
-      - "3005:3004"
+      - "3500:3500"
     networks:
       - carrental
 
