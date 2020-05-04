@@ -48,14 +48,9 @@ class LoginBox extends Component {
     };
 
     handleLoginSignupClick = (route) => {
-        // console.log("Email is ", this.state.emailTextField)
-        // console.log("Password is ", this.state.passwordTextField)
-
-        var serverUrl = "http://localhost:8080/" + route;
+        var serverUrl = "/" + route;
         var password_hash = sha256(this.state.passwordTextField);
 
-        // console.log("serverUrl is ", serverUrl)
-        // console.log(JSON.stringify({ email: this.state.emailTextField, passwordHash: password_hash }));
         const requestOptions = {
             method: 'POST',
             headers: { 

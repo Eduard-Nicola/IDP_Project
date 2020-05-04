@@ -13,10 +13,12 @@ services:
     expose:
       - "3306"
     volumes:
-      - ./db_data:/var/lib/mysql:rw
-      - ./db_init:/docker-entrypoint-initdb.d:ro
+      - $PWD/db_data:/var/lib/mysql:rw
+      - $PWD/db_init:/docker-entrypoint-initdb.d:ro
     networks:
-      - carrental
+      carrental:
+        aliases:
+          - mysql
     deploy:
       placement:
         constraints: [node.role == manager]
@@ -52,7 +54,9 @@ services:
     ports:
       - "3000:3000"
     networks:
-      - carrental
+      carrental:
+        aliases:
+          - client
     command: npm start
     links:
       - carrental-server
@@ -81,13 +85,14 @@ services:
     command:
       - --config.file=/etc/prometheus/prometheus.yml
     volumes:
-      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - $PWD/prometheus.yml:/etc/prometheus/prometheus.yml:ro
     networks:
       - carrental
     
 
 networks:
   carrental:
+    driver: bridge
 
 volumes:
   db_data:

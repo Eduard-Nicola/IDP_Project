@@ -61,7 +61,7 @@ export default function SimplePopover(props) {
 
   const handleReserveClick = () => {
     var sendReq = 0;
-    var serverUrl = "http://localhost:8080/reserve";
+    var serverUrl = "/reserve";
     var user_id = props.userId;
     var car_id = props.data.id;
     if (fromDate === null || toDate === null) {
@@ -116,7 +116,7 @@ export default function SimplePopover(props) {
 
   const handleUnReserveClick = () => {
     var sendReq = 0;
-    var serverUrl = "http://localhost:8080/unreserve";
+    var serverUrl = "/unreserve";
     var car_id = props.data.id;
 
     const requestOptions = {

@@ -5,17 +5,20 @@ import com.carrental.server.database.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.MediaType;
 import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.io.IOException;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletResponse;
 
-@CrossOrigin(origins = "http://localhost:9090")
+@CrossOrigin
 @SpringBootApplication
 @RestController
 public class Server {
@@ -133,13 +136,7 @@ public class Server {
         }
     }
 
-    @GetMapping("/hello")
-    public String hello(@RequestParam(value = "name", defaultValue = "World") String name) {
-        return String.format("Hello %s!", name);
-    }
-
     @PostMapping(path="/signup")
-    @CrossOrigin(origins = "http://localhost:3000")
     public @ResponseBody ResponseLoginSignup addNewUser(@RequestBody LoginForm loginForm) {
         ResponseLoginSignup responseSignup = new ResponseLoginSignup();
 
@@ -162,7 +159,6 @@ public class Server {
     }
 
     @PostMapping(path="/login")
-    @CrossOrigin(origins = "http://localhost:3000")
     public @ResponseBody ResponseLoginSignup checkUser(@RequestBody LoginForm loginForm) {
         ResponseLoginSignup responseLogin = new ResponseLoginSignup();
 
@@ -186,13 +182,11 @@ public class Server {
     }
 
     @GetMapping(path="/cars")
-    @CrossOrigin(origins = "http://localhost:3000")
     public @ResponseBody Iterable<Car> getCars() {
         return carRepository.findAll();
     }
 
     @PostMapping(path="/reserve")
-    @CrossOrigin(origins = "http://localhost:3000")
     public @ResponseBody Response reserveCar(@RequestBody ReserveForm reserveForm) {
         Response responseReserve = new Response();
 
@@ -215,7 +209,6 @@ public class Server {
     }
 
     @PostMapping(path="/unreserve")
-    @CrossOrigin(origins = "http://localhost:3000")
     public @ResponseBody Response unReserveCar(@RequestBody UnReserveForm unReserveForm) {
         Response responseReserve = new Response();
 
@@ -237,7 +230,6 @@ public class Server {
         return responseReserve;
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping (
         path = "/photos/{image_path}",
         produces = MediaType.IMAGE_JPEG_VALUE

@@ -37,7 +37,7 @@ class TitlebarGridList extends Component {
   tileData = [];
 
   componentDidMount() {
-    var serverUrl = "http://localhost:8080/cars";
+    var serverUrl = "/cars";
     // Get cars from server
     const requestOptions = {
       method: 'GET',
@@ -57,7 +57,7 @@ class TitlebarGridList extends Component {
             
                 // Set image URLs
                 this.tileData.map(car => {
-                  var imgUrl = "http://localhost:8080/photos/" + car.imageUrl;
+                  var imgUrl = "/photos/" + car.imageUrl;
                   
                   car.image = imgUrl;
 
