@@ -26,6 +26,8 @@ CREATE TABLE IF NOT EXISTS car (
 );
 
 INSERT INTO car (make, model, prod_year, displacement, horsepower, fuel_type, fuel_economy, price_per_day, reserved, reserved_from, reserved_to, image_url) VALUES ("Skoda", "Octavia", "2013", 1998, 150, "Gasoline", 8, 150, 0, "none", "none", "skoda_octavia.jpg");
-INSERT INTO car (make, model, prod_year, displacement, horsepower, fuel_type, fuel_economy, price_per_day, reserved, reserved_from, reserved_to, image_url) VALUES ("Mercedes-Benz", "C-Klasse", "2009", 2200, 180, "Gasoline", 10, 250, 0, "none", "none", "merc_c_klasse.jpg");
+INSERT INTO car (make, model, prod_year, displacement, horsepower, fuel_type, fuel_economy, price_per_day, reserved, reserved_from, reserved_to, image_url) VALUES ("Mercedes-Benz", "C-Klasse", "2009", 2200, 180, "Diesel", 10, 250, 0, "none", "none", "merc_c_klasse.jpg");
 INSERT INTO car (make, model, prod_year, displacement, horsepower, fuel_type, fuel_economy, price_per_day, reserved, reserved_from, reserved_to, image_url) VALUES ("Audi", "A8", "2015", 2998, 300, "Gasoline", 13, 400, 0, "none", "none", "audi_a8.jpg");
 INSERT INTO car (make, model, prod_year, displacement, horsepower, fuel_type, fuel_economy, price_per_day, reserved, reserved_from, reserved_to, image_url) VALUES ("Volkswagen", "Golf", "2016", 1597, 120, "Diesel", 6, 100, 0, "none", "none", "vw_golf.jpg");
+INSERT INTO car (make, model, prod_year, displacement, horsepower, fuel_type, fuel_economy, price_per_day, reserved, reserved_from, reserved_to, image_url) VALUES ("BMW", "5 Series", "2013", 3000, 280, "Gasoline", 12.6, 350, 0, "none", "none", "bmw_5_series.jpg");
+INSERT INTO car (make, model, prod_year, displacement, horsepower, fuel_type, fuel_economy, price_per_day, reserved, reserved_from, reserved_to, image_url) VALUES ("McLaren", "GT", "2020", 4000, 612, "Gasoline", 16.4, 1200, 0, "none", "none", "mclaren_gt.jpg");
