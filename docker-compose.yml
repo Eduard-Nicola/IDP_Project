@@ -13,8 +13,8 @@ services:
     expose:
       - "3306"
     volumes:
-      - $PWD/db_data:/var/lib/mysql:rw
-      - $PWD/db_init:/docker-entrypoint-initdb.d:ro
+      - ./db_data:/var/lib/mysql:rw
+      - ./db_init:/docker-entrypoint-initdb.d:ro
     networks:
       carrental:
         aliases:
@@ -83,7 +83,7 @@ services:
     command:
       - --config.file=/etc/prometheus/prometheus.yml
     volumes:
-      - $PWD/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
     networks:
       - carrental
     

@@ -67,7 +67,7 @@ if __name__ == '__main__':
 	config = {
 		'user': 'root',
 		'password': 'carrental',
-		'host': 'mysql',
+		'host': 'mysql-development',
 		'port': '3306',
 		'database': 'carrental'
 	}

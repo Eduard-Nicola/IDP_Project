@@ -44,5 +44,5 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://server:8080"
+  "proxy": "http://carrental-server:8080"
 }

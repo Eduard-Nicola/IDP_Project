@@ -16,20 +16,14 @@ const useStyles = theme => ({
   },
   gridList: {
     width: 500,
-    height: 450,
+    height: 600,
   },
   icon: {
     color: 'rgba(255, 255, 255, 0.54)',
   },
 });
 
-//   The example data is structured as follows:
- 
-//   import image from 'path/to/image.jpg';
-//   [etc...]
-
 class TitlebarGridList extends Component {
-  // INSERT INTO car (make, model, prod_year, displacement, horsepower, fuel_type, fuel_economy, price_per_day, reserved, reserved_from, reserved_to, image_url) VALUES ("Skoda", "Octavia", "2013", 1998, 150, "Gasoline", 8, 150, 0, "none", "none", "skoda_octavia.jpg");
   state = {
     ready: false
   }
