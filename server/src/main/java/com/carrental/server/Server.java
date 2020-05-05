@@ -18,7 +18,6 @@ import java.util.Optional;
 
 import javax.servlet.http.HttpServletResponse;
 
-@CrossOrigin
 @SpringBootApplication
 @RestController
 public class Server {

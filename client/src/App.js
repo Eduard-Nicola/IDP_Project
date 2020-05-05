@@ -20,10 +20,10 @@ class App extends Component {
     var id = -1;
 
     if (sessionStorage.getItem('loginStatus')) {
-      loginStatus = JSON.parse(localStorage.getItem('loginStatus'));
+      loginStatus = JSON.parse(sessionStorage.getItem('loginStatus'));
     }
     if (sessionStorage.getItem('loginStatus')) {
-      id = parseInt(localStorage.getItem('userId'));
+      id = parseInt(sessionStorage.getItem('userId'));
     }
 
     this.setState({ isLoggedIn: loginStatus,

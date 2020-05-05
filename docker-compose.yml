@@ -9,16 +9,12 @@ services:
       - MYSQL_ROOT_PASSWORD=carrental
       - MYSQL_DATABASE=carrental
     ports:
-      - "3306:3306"
-    expose:
-      - "3306"
+      - 3306:3306
     volumes:
       - ./db_data:/var/lib/mysql:rw
       - ./db_init:/docker-entrypoint-initdb.d:ro
     networks:
-      carrental:
-        aliases:
-          - mysql
+      - carrental
     deploy:
       placement:
         constraints: [node.role == manager]
@@ -31,15 +27,13 @@ services:
     depends_on:
       - "mysql-development"
     ports:
-      - "8080:8080"
+      - 8080:8080
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql-development:3306/carrental?useSSL=false&allowPublicKeyRetrieval=true
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: carrental
     networks:
-      carrental:
-        aliases:
-          - server
+      - carrental
     deploy:
       placement:
         constraints: [node.role == manager]
@@ -52,11 +46,9 @@ services:
     depends_on:
       - "carrental-server"
     ports:
-      - "3000:3000"
+      - 3000:3000
     networks:
-      carrental:
-        aliases:
-          - client
+      - carrental
     command: npm start
     links:
       - carrental-server
@@ -71,7 +63,7 @@ services:
     stdin_open: true
     tty: true
     ports:
-      - "3500:3500"
+      - 3500:3500
     networks:
       - carrental
 
@@ -79,7 +71,7 @@ services:
     image: prom/prometheus:latest
     container_name: carrental_prometheus
     ports:
-      - "9090:9090"
+      - 9090:9090
     command:
       - --config.file=/etc/prometheus/prometheus.yml
     volumes:
