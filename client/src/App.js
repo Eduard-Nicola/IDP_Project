@@ -49,13 +49,15 @@ class App extends Component {
     var bodyStyle = {
       width: "100%",
       height: "100vh",
-      backgroundImage: "url(" + MainPhoto + ")"
+      backgroundImage: "url(" + MainPhoto + ")",
+      maxWidth: "100%"
     };
 
     var carsBodyStyle = {
       width: "100%",
       height: "100vh",
-      backgroundColor: "#000000"
+      backgroundColor: "#000000",
+      maxWidth: "100%"
     };
 
     return (
@@ -64,6 +66,7 @@ class App extends Component {
           <Route key="main" exact path="/">
             <ButtonAppBar title="Car-n-go: car rental services" isLoggedIn={this.state.isLoggedIn} callback={this.getLoginStatus}/>
               <body style={bodyStyle}>
+                <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0'/>
                 <h1 className='display-1 text-primary title'>Welcome to our website!</h1>
                 <p className='paragraph'>We offer car rental services for affordable prices. We have multiple dealerships located in main airports and large cities.</p>
               </body>

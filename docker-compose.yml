@@ -1,6 +1,9 @@
 version: '3.7'
 
 services:
+  ##########################################
+  # Mysql
+  ##########################################
   mysql-development:
     image: mysql
     restart: always
@@ -19,10 +22,13 @@ services:
       placement:
         constraints: [node.role == manager]
 
+  ##########################################
+  # Server
+  ##########################################
   carrental-server:
-    # build: 
-    #   context: server
-    image: eduardnicola/idp_project:latest-server
+    build: 
+      context: server
+    # image: eduardnicola/idp_project:latest-server
     container_name: carrental_server
     depends_on:
       - "mysql-development"
@@ -38,10 +44,13 @@ services:
       placement:
         constraints: [node.role == manager]
 
+  ##########################################
+  # Client
+  ##########################################
   carrental-client:
-    # build:
-    #   context: client
-    image: eduardnicola/idp_project:latest-client
+    build:
+      context: client
+    # image: eduardnicola/idp_project:latest-client
     container_name: carrental_client
     depends_on:
       - "carrental-server"
@@ -53,10 +62,13 @@ services:
     links:
       - carrental-server
 
+  ##########################################
+  # Admin
+  ##########################################
   carrental-admin:
-    # build: 
-    #   context: admin
-    image: eduardnicola/idp_project:latest-admin
+    build: 
+      context: admin
+    # image: eduardnicola/idp_project:latest-adminZ
     container_name: carrental_admin
     depends_on:
       - "mysql-development"
@@ -67,6 +79,9 @@ services:
     networks:
       - carrental
 
+  ##########################################
+  # Prometheus
+  ##########################################
   prometheus:
     image: prom/prometheus:latest
     container_name: carrental_prometheus
@@ -78,7 +93,6 @@ services:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
     networks:
       - carrental
-    
 
 networks:
   carrental:

@@ -28,6 +28,8 @@ const theme = createMuiTheme({
 class LoginBox extends Component {
     state = {
         loginStatus: '',
+        emailStatus: '',
+        passwordStatus: '',
         emailTextField: '',
         passwordTextField: '',
         redirect: false
@@ -37,6 +39,8 @@ class LoginBox extends Component {
         super();
         // Reset login state
         this.setState({ loginStatus: '' });
+        this.setState({ emailStatus: '' });
+        this.setState({ passwordStatus: '' });
     }
 
     handleEmailTextFieldChange = (textField) => {
@@ -48,6 +52,33 @@ class LoginBox extends Component {
     };
 
     handleLoginSignupClick = (route) => {
+        // this.setState({ emailStatus: '' });
+        // this.setState({ passwordStatus: '' });
+        var emailError = false;
+        var passwordError = false;
+        var afterAt = this.state.emailTextField.substring(this.state.emailTextField.search('@'));
+        if (this.state.emailTextField.search('@') === -1 || afterAt.search('\\.') === -1) {
+            this.setState({ emailStatus: 'no valid email' });
+            emailError = true;
+        }
+        if (this.state.emailTextField === '') {
+            this.setState({ emailStatus: 'no email' });
+            emailError = true;
+        }
+        if (this.state.passwordTextField === '') {
+            this.setState({ passwordStatus: 'no password' });
+            passwordError = true;
+        }
+        if (emailError === true || passwordError === true) {
+            if (!emailError) {
+                this.setState({ emailStatus: '' });
+            }
+            if (!passwordError) {
+                this.setState({ passwordStatus: '' });
+            }
+            return;
+        }
+
         var serverUrl = "/" + route;
         var password_hash = sha256(this.state.passwordTextField);
 
@@ -66,15 +97,15 @@ class LoginBox extends Component {
             )
             .then(
                 data => {
-                    this.setState({ loginStatus: data.status })
+                    this.setState({ loginStatus: data.status });
                     // console.log("status is ", data.status)
                     if (route === 'login' && data.status === 'found') {
                         this.props.callback(true, data.id);
-                        this.setState({ redirect: true })
+                        this.setState({ redirect: true });
                     }
                     if (route === 'signup' && data.status === 'added') {
                         this.props.callback(true, data.id);
-                        this.setState({ redirect: true })
+                        this.setState({ redirect: true });
                     }
                 }
             );
@@ -121,6 +152,22 @@ class LoginBox extends Component {
                 }
             );
         }
+        if (this.state.emailStatus === 'no email') {
+            return (
+                {
+                    error: true,
+                    helperText: "Please enter an email!"
+                }
+            );
+        }
+        if (this.state.emailStatus === 'no valid email') {
+            return (
+                {
+                    error: true,
+                    helperText: "Please enter a valid email!"
+                }
+            );
+        }
 
         return {};
     }
@@ -132,6 +179,14 @@ class LoginBox extends Component {
                 {
                     error: true,
                     helperText: "Password incorrect!"
+                }
+            );
+        }
+        if (this.state.passwordStatus === 'no password') {
+            return (
+                {
+                    error: true,
+                    helperText: "Please enter a password!"
                 }
             );
         }
